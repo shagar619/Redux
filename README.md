@@ -11,29 +11,35 @@ Managing state in large applications can become complex, especially when:
 - update the state based on user actions or other events.
 - ensure that the state is consistent and predictable.
 
+#### ⚙️ Installation core Redux
+
+```bash
+npm install redux
+```
+
+#### ⚙️ Installation core React-Redux
+
+```bash
+npm install react-redux
+```
+
 > Redux solves this by introducing a single source of truth and a strict set of rules for how state can be changed.
 
-#### 🧠 Core Concepts of Redux
-Redux revolves around three main principles:
+## 🔷 Redux Toolkit
+Redux Toolkit is the official, recommended way to write Redux logic. It provides a set of tools and best practices to simplify the process of writing Redux applications.
+It includes utilities for:
+- **Store setup**: Simplifies the configuration of the Redux store.
+- **Reducers**: Provides a way to create reducers using the `createSlice` function.
+- **Actions**: Automatically generates action creators and action types.
+- **Immutable updates**: Uses the Immer library to allow for simpler immutable state updates.
 
-1. **Single Source of Truth**: The state of your application is stored in a single object tree within a single store. This makes it easier to track changes and debug your application.
+#### ⚙️ Installation
 
-```javascript
-const initialState = {
-  user: null,
-  posts: [],
-};
+```bash
+npm install @reduxjs/toolkit
 ```
 
-2. **State is Read-Only**: The only way to change the state is by dispatching actions. Actions are plain JavaScript objects that describe what happened in the application.
 
-```javascript
-const addPostAction = {
-  type: 'ADD_POST',
-  payload: {
-    id: 1,
-    title: 'My First Post',
-    content: 'This is the content of my first post.',
-  },
-};
-```
+
+
+
