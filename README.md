@@ -174,4 +174,3 @@ export default Counter;
 | 7 | **Community and Ecosystem** | Large community with extensive ecosystem of libraries and tools | Smaller community, fewer third-party libraries |
 | 8 | **Data Flow** | Unidirectional data flow, making it easier to understand and debug | Bidirectional data flow, which can lead to more complex interactions |
 | 9 | **API** | Well-defined API with actions, reducers, and middleware | Simpler API, primarily using React's built-in context |
-
