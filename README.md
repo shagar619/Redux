@@ -45,21 +45,18 @@ Define Root State and Dispatch Types
 
 `app/store.ts`
 ```typescript
-import { configureStore } from '@reduxjs/toolkit'
-// ...
+import { configureStore } from '@reduxjs/toolkit';
+import counterReducer from '../features/counter/counterSlice';
 
 export const store = configureStore({
   reducer: {
-    posts: postsReducer,
-    comments: commentsReducer,
-    users: usersReducer,
+    counter: counterReducer,
   },
-})
+});
 
-// Infer the `RootState` and `AppDispatch` types from the store itself
-export type RootState = ReturnType<typeof store.getState>
-// Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
-export type AppDispatch = typeof store.dispatch
+// Infer types for dispatch and state
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
 ```
 
 Define Typed Hooks
@@ -75,59 +72,50 @@ export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
 
 Create a Slice
 
-`src/features/counter/counterSlice.js`
+`src/features/counter/counterSlice.ts`
 ```typescript
-import { createSlice } from '@reduxjs/toolkit'
-import type { PayloadAction } from '@reduxjs/toolkit'
-import type { RootState } from '../../app/store'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-// Define a type for the slice state
 interface CounterState {
-  value: number
+  value: number;
 }
 
-// Define the initial state using that type
 const initialState: CounterState = {
   value: 0,
-}
+};
 
 export const counterSlice = createSlice({
   name: 'counter',
-  // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
     increment: (state) => {
-      state.value += 1
+      state.value += 1;
     },
     decrement: (state) => {
-      state.value -= 1
+      state.value -= 1;
     },
-    // Use the PayloadAction type to declare the contents of `action.payload`
     incrementByAmount: (state, action: PayloadAction<number>) => {
-      state.value += action.payload
+      state.value += action.payload;
     },
   },
-})
+});
 
-export const { increment, decrement, incrementByAmount } = counterSlice.actions
+export const { increment, decrement, incrementByAmount } = counterSlice.actions;
 
-// Other code such as selectors can use the imported `RootState` type
-export const selectCount = (state: RootState) => state.counter.value
-
-export default counterSlice.reducer
+export default counterSlice.reducer;
 ```
 
 Connect Redux to the App
 
-`src/index.js`
-```javascript
+`src/index.tsx`
+```typescript
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { store } from './app/store';
 import App from './App';
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <Provider store={store}>
       <App />
@@ -138,15 +126,15 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 
 Use Redux State and Dispatch in Components
 
-`src/features/counter/Counter.js`
-```javascript
+`src/features/counter/Counter.tsx`
+```typescript
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import { increment, decrement, incrementByAmount } from './counterSlice';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 
-const Counter = () => {
-  const count = useSelector((state) => state.counter.value);
-  const dispatch = useDispatch();
+const Counter: React.FC = () => {
+  const count = useAppSelector((state) => state.counter.value);
+  const dispatch = useAppDispatch();
 
   return (
     <div>
