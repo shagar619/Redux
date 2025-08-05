@@ -17,13 +17,11 @@ Managing state in large applications can become complex, especially when:
 npm install redux
 ```
 
-#### ⚙️ Installation core React-Redux
+#### ⚙️ Installation React-Redux
 
 ```bash
 npm install react-redux
 ```
-
-> Redux solves this by introducing a single source of truth and a strict set of rules for how state can be changed.
 
 ## 🔷 Redux Toolkit
 Redux Toolkit is the official, recommended way to write Redux logic. It provides a set of tools and best practices to simplify the process of writing Redux applications.
