@@ -272,6 +272,10 @@ export default store;
 
 #### 🔑 2. Actions
 
+Actions in Redux are plain JavaScript objects that contain information about an event that occurred in the application. They are the only way to send data to the Redux store and trigger state updates.
+
+Each action must have a type property that describes the event, and it can optionally carry a payload with additional data.
+
 - Plain JavaScript objects that describe what happened.
 - Must have a `type` field (string) and can include additional data (payload).
 
@@ -286,6 +290,8 @@ export const addTask = (task) => ({
 ```
 
 #### 🔑 3. Reducers
+
+In Redux, reducers are pure functions that handle state logic, accepting the initial state and action type to update and return the state, facilitating changes in React view components.
 
 - Pure functions that take the current `state` and an `action`, and return a new state.
 - Reducers do not mutate the state; they return a new copy.
@@ -380,5 +386,12 @@ export const saveTask = (task) => async (dispatch) => {
 };
 ```
 
+#### 🔁 Unidirectional Flow in Practice:
 
+- User clicks "Add Task" ➡️
+- `dispatch(addTask(...))` is called ➡️
+- Redux sends action to `taskReducer` ➡️
+- Reducer returns a new state ➡️
+- Store updates state ➡️
+- `TaskList` re-renders with new task
 
