@@ -395,3 +395,112 @@ export const saveTask = (task) => async (dispatch) => {
 - Store updates state ➡️
 - `TaskList` re-renders with new task
 
+
+#### ❓`<Provider>` Component in React Redux
+
+The `<Provider>` component in React Redux serves a critical role:
+> 👉 It makes the Redux store available to the entire React component tree.
+
+When you use Redux in a React app, you need a way to allow React components (especially deeply nested ones) to:
+
+- Access the state (`useSelector`)
+- Dispatch actions (`useDispatch`)
+
+Instead of manually passing the Redux store down via props, React Redux uses React Context internally. The `<Provider>` wraps your app and injects the Redux store into the context, so any child component can connect to it.
+
+🔧 How It Works:
+
+```typescript
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { Provider } from 'react-redux';
+import { store } from './app/store';
+import App from './App';
+
+ReactDOM.createRoot(document.getElementById('root')!).render(
+  <React.StrictMode>
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </React.StrictMode>
+);
+```
+
+- store is the Redux store you created.
+- Every component inside `<App />` (and nested below) now has access to the Redux store.
+
+🧩 Without `<Provider>`, Redux won't work properly in React:
+
+If you try to use `useSelector()` or `useDispatch()` outside of a `<Provider>`, you'll get an error like:
+
+> ❌ "Could not find react-redux context value; please ensure the component is wrapped in a `<Provider>`"
+
+
+#### ❓`connect` function in React Redux
+
+It allows you to:
+
+- Read data from the Redux store and pass it as props to your component.
+- Dispatch actions from the component as props.
+
+🔧 Syntax
+
+```javascript
+connect(mapStateToProps, mapDispatchToProps)(YourComponent)
+```
+
+1. `mapStateToProps(state)` function:
+
+- In React Redux, the `mapStateToProps` function is used to connect Redux state to React component props.
+- It's a function that maps parts of the Redux state to the props of a React component, and allows the component to access and use that state.
+
+```typescript
+const mapStateToProps = (state: RootState) => {
+  return {
+    // Map the Redux state to component props
+    // For example, map the 'count' state to a prop called 'count'
+    count: state.count,
+  };
+};
+```
+
+2. `mapDispatchToProps(dispatch)` function:
+
+- In React Redux, the `mapDispatchToProps` function is used to connect Redux actions to React component props.
+- It's a function that maps Redux actions to props of a React component, and allows the component to dispatch those actions.
+
+```typescript
+const mapDispatchToProps = (dispatch: Dispatch) => {
+  return {
+    // Map Redux actions to component props
+    // For example, map the 'increment' action to a prop called 'increment'
+    increment: () => dispatch(increment()),
+  };
+};
+```
+
+✅ Full Example:
+
+```typescript
+import { connect } from 'react-redux';
+import { RootState } from './store';
+import { increment } from './actions';
+interface Props {
+  count: number;
+  increment: () => void;
+}
+const mapStateToProps = (state: RootState) => {
+  return {
+    count: state.count,
+  };
+};
+const mapDispatchToProps = (dispatch: Dispatch) => {
+  return {
+    increment: () => dispatch(increment()),
+  };
+};
+const YourComponent = connect(mapStateToProps, mapDispatchToProps)(YourComponent);
+```
+
+
+
