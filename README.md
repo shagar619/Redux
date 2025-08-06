@@ -240,4 +240,145 @@ function badReducer(state = [], action) {
 }
 ```
 
+#### ❓key components of Redux architecture
+
+The key components of Redux architecture revolve around a unidirectional data flow and a predictable state container.
+Here are the core pieces:
+
+#### 🔑 1. Store
+
+- Holds the application state.
+- There is a single store in a Redux app (centralized state).
+- Provides methods:
+
+  - `getState()` – gets the current state.
+  - `dispatch(action)` – sends an action to the reducer.
+  - `subscribe(listener)` – registers a listener that runs when the state changes.
+
+```javascript
+// store/index.js
+import { createStore, combineReducers } from 'redux';
+import { taskReducer } from '../reducers/taskReducer';
+
+const rootReducer = combineReducers({
+  taskState: taskReducer,
+});
+
+const store = createStore(rootReducer);
+
+export default store;
+```
+
+
+#### 🔑 2. Actions
+
+- Plain JavaScript objects that describe what happened.
+- Must have a `type` field (string) and can include additional data (payload).
+
+```javascript
+// actions/taskActions.js
+export const ADD_TASK = 'ADD_TASK';
+
+export const addTask = (task) => ({
+  type: ADD_TASK,
+  payload: task,
+});
+```
+
+#### 🔑 3. Reducers
+
+- Pure functions that take the current `state` and an `action`, and return a new state.
+- Reducers do not mutate the state; they return a new copy.
+
+```javascript
+// reducers/taskReducer.js
+import { ADD_TASK } from '../actions/taskActions';
+
+const initialState = {
+  tasks: [],
+};
+
+export const taskReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case ADD_TASK:
+      return {
+        ...state,
+        tasks: [...state.tasks, action.payload],
+      };
+    default:
+      return state;
+  }
+};
+```
+
+#### 🔑 4. Dispatch
+
+- The method used to send an action to the store.
+- Triggers the reducer to compute the new state.
+
+```javascript
+// components/AddTask.js
+import { useDispatch } from 'react-redux';
+import { addTask } from '../actions/taskActions';
+
+const AddTask = () => {
+  const dispatch = useDispatch();
+
+  const handleAdd = () => {
+    const newTask = {
+      id: Date.now(),
+      title: 'Design login page',
+      assignedTo: 'John',
+      status: 'Pending',
+    };
+    dispatch(addTask(newTask));
+  };
+
+  return <button onClick={handleAdd}>Add Task</button>;
+};
+```
+
+#### 🔑 5. State
+
+- The entire app’s state is stored in a single JavaScript object within the store.
+- It's read-only and can only be updated through dispatching actions and reducers.
+
+```javascript
+// components/TaskList.js
+import { useSelector } from 'react-redux';
+
+const TaskList = () => {
+  const tasks = useSelector((state) => state.taskState.tasks);
+
+  return (
+    <ul>
+      {tasks.map((task) => (
+        <li key={task.id}>
+          {task.title} - Assigned to {task.assignedTo}
+        </li>
+      ))}
+    </ul>
+  );
+};
+```
+
+#### 🔑 6. Middleware (Optional but common)
+
+- Used to extend Redux with custom functionality.
+- Intercepts actions before they reach the reducer.
+- Examples: redux-thunk, redux-saga, logging, error tracking.
+
+```javascript
+// With redux-thunk
+export const saveTask = (task) => async (dispatch) => {
+  const response = await fetch('/api/tasks', {
+    method: 'POST',
+    body: JSON.stringify(task),
+  });
+  const data = await response.json();
+  dispatch(addTask(data));
+};
+```
+
+
 
