@@ -152,7 +152,7 @@ export default Counter;
 
 ❓ Redux solves several challenges in complex front-end applications:
 
-- **State Management**: It provides a centralized store for managing the state of the application, making it easier to track and update state changes.
+- **State Management**: It provides a centralized store for managing the state of the application, making it easier to track and update state changes it.
 - **Asynchronous Actions**: Redux middleware like Redux Thunk or Redux Saga allows for handling asynchronous actions, making it easier to manage side effects such as API calls.
 - **Predictability**: Redux enforces a unidirectional data flow, which makes the application state predictable and easier to debug.
 - **Testing**: Redux's predictable state management makes it easier to write tests for your application.
