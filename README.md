@@ -291,7 +291,7 @@ export const addTask = (task) => ({
 
 #### 🔑 3. Reducers
 
-In Redux, reducers are pure functions that handle state logic, accepting the initial state and action type to update and return the state, facilitating changes in React view components.
+In Redux, reducers are pure functions that handle state logic, accepting the initial state and action type to update and return to the state, facilitating changes in React view components.
 
 - Pure functions that take the current `state` and an `action`, and return a new state.
 - Reducers do not mutate the state; they return a new copy.
