@@ -105,7 +105,7 @@ export const { increment, decrement, incrementByAmount } = counterSlice.actions;
 export default counterSlice.reducer;
 ```
 
-Connect Redux to the App
+Connect Redux to the App:
 
 `src/index.tsx`
 ```typescript
@@ -124,7 +124,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
 );
 ```
 
-Use Redux State and Dispatch in Components
+Use Redux State and Dispatch in Components:
 
 `src/features/counter/Counter.tsx`
 ```typescript
@@ -145,7 +145,6 @@ const Counter: React.FC = () => {
     </div>
   );
 };
-
 export default Counter;
 ```
 
