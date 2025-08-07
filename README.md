@@ -41,7 +41,7 @@ Redux Toolkit TypeScript Quick Start:
 
 ⚙️ **Project Setup**
 
-Define Root State and Dispatch Types
+Define Root State and Dispatch Types:
 
 `app/store.ts`
 ```typescript
