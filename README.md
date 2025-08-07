@@ -24,7 +24,7 @@ npm install react-redux
 ```
 
 ## 🔷 Redux Toolkit
-Redux Toolkit is the official, recommended way to write Redux logic. It provides a set of tools and best practices to simplify the process of writing Redux applications.
+Redux Toolkit is the official, recommended way to write Redux logic. It provides a set of tools and best practicing to simplify the process of writing Redux applications.
 It includes utilities for:
 - **Store setup**: Simplifies the configuration of the Redux store.
 - **Reducers**: Provides a way to create reducers using the `createSlice` function.
