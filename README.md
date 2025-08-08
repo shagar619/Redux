@@ -297,6 +297,7 @@ In Redux, reducers are pure functions that handle state logic, accepting the ini
 - Pure functions that take the current `state` and an `action`, and return a new state.
 - Reducers do not mutate the state; they return a new copy.
 
+
 ```javascript
 // reducers/taskReducer.js
 import { ADD_TASK } from '../actions/taskActions';
@@ -562,7 +563,6 @@ function todoReducer(state = [], action) {
 ```javascript
 function TodoList() {
   const todos = useSelector(state => state.todos);
-  // ...
 }
 ```
 > When the relevant slice of state changes, the component re-renders with new props/data.
