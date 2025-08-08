@@ -246,6 +246,8 @@ Here are the core pieces:
 
 #### 🔑 1. Store
 
+The Redux store is a centralized object that holds the state of the application. It allows components to access and update the state using dispatch and selectors. The state inside the store can only be modified by dispatching actions.
+
 - Holds the application state.
 - There is a single store in a Redux app (centralized state).
 - Provides methods:
