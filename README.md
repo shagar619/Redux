@@ -570,22 +570,19 @@ function TodoList() {
 #### 🧠 Summary Diagram
 
 ```scss
-// Redux Toolkit
-// 📦
-// ⚙️ Store setup
-// ⚙️ Reducers
-// ⚙️ Middleware (optional)
-// ⚙️ Reducers
-// ⚙️ Store setup
-// ⚙️ Reducers
-// ⚙️ Store setup
-// ⚙️ Reducers
-// ⚙️ Store setup
-// ⚙️ Reducers
-// ⚙️ Store setup
-// ⚙️ Reducers
-// ⚙️ Store setup
-// ⚙️ Reducers
+User Event
+   ↓
+dispatch(action)
+   ↓
+Middleware (optional)
+   ↓
+Reducer(s)
+   ↓
+New State → Redux Store
+   ↓
+React Component (via useSelector or connect)
+   ↓
+Updated UI
 ```
 
 
