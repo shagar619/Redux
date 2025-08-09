@@ -586,6 +586,15 @@ Updated UI
 ```
 
 
+#### ❓Immutability in Redux
+
+- In Redux, immutability refers to the principle of not mutating state directly.
+- Instead, when you need to update the state, you create a new copy of the state object with the desired changes applied.
+- This ensures that the original state remains unchanged, and provides predictable state management and efficient change detection.
+
+
+
+
 
 
 
