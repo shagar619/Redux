@@ -372,6 +372,8 @@ const TaskList = () => {
 
 #### 🔑 6. Middleware (Optional but common)
 
+Middleware in Redux is like a gatekeeper that stands between the actions you dispatch in your app and the part of Redux responsible for updating the state. It's is used to catch these actions before they go to the state updates and do some extra stuff with them. For example, it can check if a user is authenticated or not before giving the permissions.
+
 - Used to extend Redux with custom functionality.
 - Intercepts actions before they reach the reducer.
 - Examples: redux-thunk, redux-saga, logging, error tracking.
@@ -591,6 +593,22 @@ Updated UI
 - In Redux, immutability refers to the principle of not mutating state directly.
 - Instead, when you need to update the state, you create a new copy of the state object with the desired changes applied.
 - This ensures that the original state remains unchanged, and provides predictable state management and efficient change detection.
+
+#### ✅ Immutability Example
+
+```javascript
+function addTodo(state, action) {
+  const newTodo = { id: state.length + 1, text: action.payload };
+  return [...state, newTodo];
+}
+// Before
+const initialState = [{ id: 1, text: 'Learn Redux' }];
+const newState = addTodo(initialState, { type: 'ADD_TODO', payload: 'Learn React' });
+// After
+const newState = addTodo(initialState, { type: 'ADD_TODO', payload: 'Learn React' });
+```
+
+
 
 
 
