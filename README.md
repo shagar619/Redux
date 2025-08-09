@@ -609,7 +609,61 @@ const newState = addTodo(initialState, { type: 'ADD_TODO', payload: 'Learn React
 ```
 
 
+#### ❓Strategies for handling side-effects in Redux applications
 
+In Redux, side effects are anything that affects the outside world or depends on it — like API calls, timers, logging, or interacting with localStorage.
+Reducers must stay pure, so side effects are handled outside of them.
+
+#### 1️⃣ Redux Thunk – Most Common & Simple
+
+- Lets you write action creators that return a function instead of an action object.
+- That function receives `dispatch` and `getState`, so it can:
+  - Perform async work (like `fetch()` calls).
+  - Dispatch multiple actions at different stages.
+
+```javascript
+export const fetchUser = (id) => async (dispatch) => {
+  dispatch({ type: 'USER_FETCH_REQUEST' });
+
+  try {
+    const res = await fetch(`/api/users/${id}`);
+    const data = await res.json();
+    dispatch({ type: 'USER_FETCH_SUCCESS', payload: data });
+  } catch (err) {
+    dispatch({ type: 'USER_FETCH_FAILURE', error: err.message });
+  }
+};
+```
+
+> ✅ Pros: Simple, minimal setup.
+> ⚠️ Cons: Can get messy with complex async flows.
+
+
+#### 2️⃣ Redux Saga – For Complex Flows
+
+- Uses generator functions (`function`*) to describe side effects as declarative "effects.
+- Good for:
+  - Complex async logic
+  - Cancelling tasks
+  - Listening to multiple actions over time
+
+```javascript
+function* fetchUser(action) {
+  try {
+    const data = yield call(api.getUser, action.payload);
+    yield put({ type: 'USER_FETCH_SUCCESS', payload: data });
+  } catch (err) {
+    yield put({ type: 'USER_FETCH_FAILURE', error: err.message });
+  }
+}
+
+function* watchFetchUser() {
+  yield takeEvery('USER_FETCH_REQUEST', fetchUser);
+}
+```
+
+> ✅ Pros: Great for orchestration, cancellations, retries.
+> ⚠️ Cons: Steeper learning curve.
 
 
 
