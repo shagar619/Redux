@@ -321,8 +321,8 @@ export const taskReducer = (state = initialState, action) => {
 
 #### 🔑 4. Dispatch
 
-- The method used to send an action to the store.
-- Triggers the reducer to compute the new state.
+- The role of the dispatch function in Redux is to send actions to the store.
+- It's a method provided by the Redux store that accepts an action object as its argument and initiates the process of updating the application's state based on that action.
 
 ```javascript
 // components/AddTask.js
@@ -667,7 +667,48 @@ function* watchFetchUser() {
 
 
 
+#### ❓Selectors in Redux
 
+In Redux, selectors are functions used to extract and derive specific pieces of data from the store’s state.
+They’re basically the “query layer” between your Redux store and your UI components.
+
+🔹 Basic Example
+
+Without a selector:
+```javascript
+const todos = useSelector(state => state.todos);
+```
+
+With a selector:
+```javascript
+// selectors.js
+export const selectTodos = (state) => state.todos;
+
+// Component
+const todos = useSelector(selectTodos);
+```
+
+🔹 Derived Data Example
+Selectors can compute values from state without storing them in state:
+```javascript
+export const selectCompletedTodos = (state) =>
+  state.todos.filter(todo => todo.completed);
+
+const completed = useSelector(selectCompletedTodos);
+```
+
+🔹 Memoized Selector with Reselect
+Memoization avoids recalculating if inputs haven’t changed:
+```javascript
+import { createSelector } from 'reselect';
+
+export const selectTodos = state => state.todos;
+
+export const selectCompletedTodos = createSelector(
+  [selectTodos],
+  todos => todos.filter(todo => todo.completed)
+);
+```
 
 
 
