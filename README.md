@@ -672,6 +672,14 @@ function* watchFetchUser() {
 In Redux, selectors are functions used to extract and derive specific pieces of data from the store’s state.
 They’re basically the “query layer” between your Redux store and your UI components.
 
+#### 🧩 Why Use Selectors?
+
+1. **Encapsulation** – Components don’t need to know the exact shape of the state.
+2. **Reusability** – You can use the same selector in multiple places.
+3. **Testability** – Selectors are pure functions, so they’re easy to unit test.
+4. **Performance** – With memoization (e.g., reselect), selectors can avoid recomputing unless relevant state changes.
+
+
 🔹 Basic Example
 
 Without a selector:
