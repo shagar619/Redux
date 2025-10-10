@@ -554,7 +554,7 @@ endpoints: (builder) => ({
 }),
 ```
 
-4️⃣ Queries
+**4️⃣ Queries**
 
 A query is used to fetch data.
 It automatically handles:
@@ -584,7 +584,76 @@ const Users = () => {
 };
 ```
 
+✅ Auto-caching:
+RTK Query caches the result and will serve cached data on re-renders without refetching.
 
+
+**5️⃣ Mutations**
+
+Mutations are used for creating, updating, or deleting data on the server.
+
+Example:
+```typescript
+import { useAddUserMutation } from './api';
+
+const AddUser = () => {
+  const [addUser, { isLoading, isSuccess }] = useAddUserMutation();
+
+  const handleSubmit = async () => {
+    await addUser({ name: 'John Doe', email: 'john@example.com' });
+  };
+
+  return (
+    <button onClick={handleSubmit} disabled={isLoading}>
+      {isLoading ? 'Saving...' : 'Add User'}
+    </button>
+  );
+};
+```
+
+✅ Automatic cache invalidation:
+You can mark data as “outdated” using tags, and RTK Query will refetch relevant queries automatically.
+
+
+**6️⃣ Caching and Invalidation**
+
+RTK Query caches responses by default.
+You can manage cache using tags.
+
+Example:
+```typescript
+getUsers: builder.query<User[], void>({
+  query: () => '/users',
+  providesTags: ['Users'],
+}),
+
+addUser: builder.mutation<User, Partial<User>>({
+  query: (newUser) => ({
+    url: '/users',
+    method: 'POST',
+    body: newUser,
+  }),
+  invalidatesTags: ['Users'], // refetch getUsers when new user added
+}),
+```
+
+✅ When call `addUser`, the `getUsers` query automatically re-runs to fetch fresh data.
+
+**7️⃣ Auto-Generated Hooks**
+
+RTK Query automatically generates custom hooks for React:
+
+- `useGetUsersQuery()` → for fetching data
+- `useAddUserMutation()` → for mutations
+
+These hooks return:
+
+`data`
+`error`
+`isLoading`
+`isFetching`
+`refetch()`
+`isSuccess`
 
 
 
