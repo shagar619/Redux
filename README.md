@@ -31,6 +31,16 @@ However, as an app grows:
 
 👉 Redux solves this by providing a single source of truth (the store) accessible by any component.
 
+**🧩 Redux Core Principles**
+
+1. Single Source of Truth
+   - The entire app’s state is stored in one central store.
+2. State is Read-only
+   - You can’t directly modify the state; instead, you dispatch actions.
+3. Changes via Pure Functions
+   - State changes are handled by reducers, which are pure functions returning new state objects.
+
+
 #### ⚙️ Installation core Redux
 
 ```bash
@@ -45,6 +55,23 @@ npm install react-redux
 
 ### 🔷 Redux Toolkit
 Redux Toolkit is the official, recommended way to write Redux logic. It provides a set of tools and best practicing to simplify the process of writing Redux applications.
+
+#### 🎯 Why Redux Toolkit?
+
+Traditional Redux required a lot of repetitive setup:
+
+- Creating action types, action creators, and reducers manually.
+- Handling immutable state updates.
+- Configuring middlewares manually.
+
+👉 Redux Toolkit automates and simplifies all of that with:
+
+- Cleaner syntax
+- Fewer files
+- Built-in best practices
+- Support for async actions
+
+
 It includes utilities for:
 - **Store setup**: Simplifies the configuration of the Redux store.
 - **Reducers**: Provides a way to create reducers using the `createSlice` function.
@@ -124,6 +151,60 @@ export const { increment, decrement, incrementByAmount } = counterSlice.actions;
 
 export default counterSlice.reducer;
 ```
+
+
+Handles asynchronous logic (like API requests).
+Example: fetching users from an API.
+
+`createAsyncThunk()`
+```typescript
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import axios from 'axios';
+
+export const fetchUsers = createAsyncThunk('users/fetch', async () => {
+  const response = await axios.get('https://jsonplaceholder.typicode.com/users');
+  return response.data;
+});
+
+interface UserState {
+  users: any[];
+  loading: boolean;
+  error: string | null;
+}
+
+const initialState: UserState = {
+  users: [],
+  loading: false,
+  error: null,
+};
+
+const userSlice = createSlice({
+  name: 'users',
+  initialState,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchUsers.pending, (state) => { state.loading = true; })
+      .addCase(fetchUsers.fulfilled, (state, action) => {
+        state.loading = false;
+        state.users = action.payload;
+      })
+      .addCase(fetchUsers.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message || 'Failed to fetch users';
+      });
+  },
+});
+
+export default userSlice.reducer;
+```
+
+✅ Automatically handles:
+
+- Loading state (`pending`)
+- Success (`fulfilled`)
+- Error (`rejected`)
+
 
 Connect Redux to the App:
 
