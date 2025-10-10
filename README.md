@@ -298,13 +298,13 @@ Traditional Redux async workflows require:
 
 #### 🏗️ Setup Example
 
-**✅ Step 1: Install Dependencies**
+**✅ Install Dependencies**
 
 ```bash
 npm install @reduxjs/toolkit react-redux axios
 ```
 
-**✅ Step 2: Set Up RTK Query API Slice (`services/api.ts`)**
+**✅ Set Up RTK Query API Slice (`services/api.ts`)**
 
 ```typescript
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
@@ -356,6 +356,96 @@ export const {
   useDeleteUserMutation,
 } = userApi;
 ```
+
+**✅ Configure Store (`app/store.ts`)**
+
+```typescript
+import { configureStore } from '@reduxjs/toolkit';
+import { userApi } from '../services/api';
+
+export const store = configureStore({
+  reducer: {
+    [userApi.reducerPath]: userApi.reducer,
+  },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(userApi.middleware),
+});
+
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
+```
+
+**✅ Wrap App with Provider (`index.tsx`)**
+
+```typescript
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import { store } from './app/store';
+import App from './App';
+
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById('root')
+);
+```
+
+**✅ Create Component Using RTK Query (`components/UserList.tsx`)**
+
+```typescript
+import React, { useState } from 'react';
+import {
+  useGetUsersQuery,
+  useAddUserMutation,
+  useDeleteUserMutation,
+} from '../services/api';
+
+const UserList = () => {
+  const { data: users, error, isLoading } = useGetUsersQuery();
+  const [addUser] = useAddUserMutation();
+  const [deleteUser] = useDeleteUserMutation();
+  const [name, setName] = useState('');
+
+  const handleAddUser = async () => {
+    if (name.trim() === '') return;
+    await addUser({ name, email: `${name}@example.com` });
+    setName('');
+  };
+
+  if (isLoading) return <p>Loading users...</p>;
+  if (error) return <p>Error fetching users!</p>;
+
+  return (
+    <div style={{ padding: '20px' }}>
+      <h2>User List</h2>
+
+      <div style={{ marginBottom: '20px' }}>
+        <input
+          type="text"
+          placeholder="Add user name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+        <button onClick={handleAddUser}>Add User</button>
+      </div>
+
+      <ul>
+        {users?.map((user: any) => (
+          <li key={user.id}>
+            {user.name} - {user.email}{' '}
+            <button onClick={() => deleteUser(user.id)}>❌ Delete</button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+export default UserList;
+```
+
 
 
 
