@@ -6,7 +6,7 @@
 
 </div>
 
-## 🔷 What is Redux?
+### 🔷 What is Redux?
 
 Redux is a predictable state container for JavaScript applications. It helps you write applications that behave consistently across different environments (client, server, and native), are easy to test, and can be used with a wide range of libraries and frameworks.
 
@@ -14,6 +14,22 @@ Managing state in large applications can become complex, especially when:
 - manage the state of multiple components.
 - update the state based on user actions or other events.
 - ensure that the state is consistent and predictable.
+
+#### 🎯 Why Do We Need Redux?
+
+In a React app, state is often managed using:
+
+- `useState()`
+- `useContext()`
+- `useReducer()`
+
+However, as an app grows:
+
+- You get nested props (prop drilling).
+- State needs to be shared between distant components.
+- Debugging and maintaining become hard.
+
+👉 Redux solves this by providing a single source of truth (the store) accessible by any component.
 
 #### ⚙️ Installation core Redux
 
@@ -27,7 +43,7 @@ npm install redux
 npm install react-redux
 ```
 
-## 🔷 Redux Toolkit
+### 🔷 Redux Toolkit
 Redux Toolkit is the official, recommended way to write Redux logic. It provides a set of tools and best practicing to simplify the process of writing Redux applications.
 It includes utilities for:
 - **Store setup**: Simplifies the configuration of the Redux store.
@@ -43,7 +59,7 @@ npm install @reduxjs/toolkit
 
 Redux Toolkit TypeScript Quick Start:
 
-⚙️ **Project Setup**
+**⚙️ Project Setup**
 
 Define Root State and Dispatch Types:
 
