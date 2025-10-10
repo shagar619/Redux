@@ -263,7 +263,7 @@ export default Counter;
 
 
 ❓Difference between Redux and Context API
-|--| Feature | Redux | Context API |
+|  | Feature | Redux | Context API |
 |--|---------|-------|-------------|
 | 1 | **Purpose** | State management for complex applications | Lightweight state management for simpler use cases |
 | 2 | **Middleware** | Supports middleware for side effects (e.g., Redux Thunk, Redux Saga) | No built-in middleware support |
@@ -276,18 +276,52 @@ export default Counter;
 | 9 | **API** | Well-defined API with actions, reducers, and middleware | Simpler API, primarily using React's built-in context |
 
 
+### RTK Query
+
+RTK Query is a powerful data fetching and caching tool built into Redux Toolkit.
+It simplifies API calls, caching, loading states, and data synchronization between your frontend and backend — all automatically.
+
+#### 🎯 Why Use RTK Query?
+
+Traditional Redux async workflows require:
+
+- Writing createAsyncThunk() for every API request
+- Managing loading, error, and success states manually
+- Writing reducers to update the store
+
+👉 RTK Query automates all of this. It:
+
+- Fetches and caches data automatically
+- Refetches on demand
+- Invalidates stale data
+- Handles loading/error states out of the box
+
+#### 🏗️ Setup Example
+
+**✅ Step 1: Install Dependencies**
+
+```bash
+npm install @reduxjs/toolkit react-redux axios
+```
+
+
+
+
+
+
+
+
 ❓Pure functions in the context of Redux
 
 A pure function is a function that:
 
 1. Returns the same output given the same input (no randomness or time-based logic).
-
 2. Does not cause side effects, such as:
 
-- Modifying external variables or state
-- Making API calls
-- Logging to the console
-- Writing to disk or localStorage
+   - Modifying external variables or state
+   - Making API calls
+   - Logging to the console
+   - Writing to disk or localStorage
 
 
 
