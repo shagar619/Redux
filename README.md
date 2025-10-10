@@ -446,10 +446,45 @@ const UserList = () => {
 export default UserList;
 ```
 
+**✅ Use in App (`App.tsx`)**
+
+```typescript
+import React from 'react';
+import UserList from './components/UserList';
+
+const App = () => (
+  <div>
+    <h1>👥 RTK Query Example</h1>
+    <UserList />
+  </div>
+);
+
+export default App;
+```
 
 
+#### 🧩 Core Concepts of RTK Query
 
+At its core, RTK Query introduces an API layer that lives inside Redux.
 
+It adds:
+
+1. An API slice (created by createApi)
+2. A base query function (usually fetchBaseQuery)
+3. Endpoints (queries & mutations)
+4. Auto-generated hooks (for React)
+5. Middleware for caching and re-fetching logic
+
+**1️⃣ API Slice**
+
+The API slice is the heart of RTK Query.
+You define it using the `createApi()` function.
+
+It tells RTK Query:
+
+- What the base URL is (`baseQuery`)
+- Which endpoints exist (`endpoints`)
+- Which tags to use for caching (`tagTypes`)
 
 
 
