@@ -655,7 +655,41 @@ These hooks return:
 `refetch()`
 `isSuccess`
 
+**8️⃣ Refetching**
 
+can manually trigger refetching:
+```typescript
+const { data, refetch } = useGetUsersQuery();
+
+<button onClick={() => refetch()}>Refresh</button>
+```
+
+You can also configure auto refetching on:
+
+- Focus regain
+- Network reconnect
+
+```typescript
+setupListeners(store.dispatch); // from RTK Query utilities
+```
+
+**9️⃣ Polling**
+
+RTK Query can refetch data at regular intervals.
+
+```typescript
+const { data } = useGetUsersQuery(undefined, { pollingInterval: 10000 });
+```
+
+**🔟 Selectors**
+
+RTK Query creates selectors for cached data in Redux state, allowing direct access to query results.
+
+```typescript
+import { api } from './api';
+
+const userSelector = api.endpoints.getUsers.select();
+```
 
 
 
