@@ -486,6 +486,109 @@ It tells RTK Query:
 - Which endpoints exist (`endpoints`)
 - Which tags to use for caching (`tagTypes`)
 
+Example:
+```typescript
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+
+export const api = createApi({
+  reducerPath: 'api', // unique key in the store
+  baseQuery: fetchBaseQuery({ baseUrl: '/api' }),
+  tagTypes: ['Users', 'Posts'],
+  endpoints: (builder) => ({
+    getUsers: builder.query<User[], void>({
+      query: () => '/users',
+      providesTags: ['Users'],
+    }),
+  }),
+});
+```
+
+🧠 This `api` slice automatically creates:
+
+- Reducer for storing data
+- Middleware for caching and lifecycle management
+- React hooks (`useGetUsersQuery`)
+
+**2️⃣ Base Query**
+
+The `baseQuery` defines how to make API requests.
+The most common base query is `fetchBaseQuery`, which is a wrapper around `fetch()`.
+
+Example:
+```typescript
+baseQuery: fetchBaseQuery({
+  baseUrl: 'https://jsonplaceholder.typicode.com/',
+  prepareHeaders: (headers) => {
+    headers.set('Authorization', `Bearer ${localStorage.getItem('token')}`);
+    return headers;
+  },
+}),
+```
+
+**3️⃣ Endpoints**
+
+Endpoints define how to fetch or mutate data.
+
+There are two types:
+
+*1. Query* : Read (GET) data from the server. Example- `getUsers`, `getPostById`.
+
+*1. Mutation* : Write (POST, PUT, DELETE) data. Example- `createUser`, `updatePost`.
+
+Example:
+```typescript
+endpoints: (builder) => ({
+  // Query example
+  getUsers: builder.query<User[], void>({
+    query: () => 'users',
+  }),
+
+  // Mutation example
+  addUser: builder.mutation<User, Partial<User>>({
+    query: (body) => ({
+      url: 'users',
+      method: 'POST',
+      body,
+    }),
+  }),
+}),
+```
+
+4️⃣ Queries
+
+A query is used to fetch data.
+It automatically handles:
+
+- Fetching from the server
+- Caching
+- Re-fetching when needed
+- Managing loading & error states
+
+Example Usage:
+```typescript
+import { useGetUsersQuery } from './api';
+
+const Users = () => {
+  const { data, error, isLoading, isFetching } = useGetUsersQuery();
+
+  if (isLoading) return <p>Loading...</p>;
+  if (error) return <p>Error loading users!</p>;
+
+  return (
+    <ul>
+      {data?.map((u) => (
+        <li key={u.id}>{u.name}</li>
+      ))}
+    </ul>
+  );
+};
+```
+
+
+
+
+
+
 
 
 ❓Pure functions in the context of Redux
