@@ -688,8 +688,26 @@ Instead of manually using fetch or axios and dispatching multiple actions, RTK Q
 
 ```typescript
 const { data, isLoading, error } = useGetUsersQuery();
+```
 
-<button onClick={() => refetch()}>Refresh</button>
+RTK Query can automatically re-fetch data when:
+
+- The component regains focus (after tab switch)
+- The network reconnects
+- You invalidate a cache tag
+
+You can enable this by calling:
+```typescript
+import { setupListeners } from '@reduxjs/toolkit/query';
+setupListeners(store.dispatch);
+```
+
+✅ Example:
+```tsx
+const { data, refetch } = useGetUsersQuery(undefined, {
+  refetchOnFocus: true,
+  refetchOnReconnect: true,
+});
 ```
 
 ✅ Automatically:
@@ -717,6 +735,11 @@ import { api } from './api';
 
 const userSelector = api.endpoints.getUsers.select();
 ```
+
+**11️⃣ Caching and De-Duplication**
+
+
+
 
 
 
