@@ -782,6 +782,42 @@ const axiosBaseQuery =
   };
 ```
 
+**13️⃣ Authentication Handling**
+
+RTK Query supports JWT tokens or any auth headers via `prepareHeaders`:
+
+```typescript
+baseQuery: fetchBaseQuery({
+  baseUrl: '/api',
+  prepareHeaders: (headers, { getState }) => {
+    const token = (getState() as RootState).auth.token;
+    if (token) headers.set('Authorization', `Bearer ${token}`);
+    return headers;
+  },
+}),
+```
+
+✅ Automatically attaches tokens to each request.
+
+## 📊 Summary Table — RTK Query Features
+
+| Feature | Description | Example |
+|----------|--------------|----------|
+| 🔍 **Data Fetching** | Fetch data declaratively | `useGetUsersQuery()` |
+| ⚡ **Auto Hook Generation** | Hooks for every endpoint | `useAddUserMutation()` |
+| 💾 **Caching** | Automatic response caching | Shared between components |
+| 🔁 **Auto Re-Fetch** | Refetch on focus or network reconnect | `refetchOnFocus` |
+| 🏷️ **Cache Invalidation** | Refresh outdated data automatically | `invalidatesTags` |
+| ⏳ **Polling** | Auto-refresh periodically | `{ pollingInterval: 10000 }` |
+| 🔧 **Middleware Integration** | Handles async logic & cache lifecycle | `api.middleware` |
+| 🧰 **Manual Refetch** | Manually reload data | `refetch()` |
+| 💾 **Prefetching** | Preload data before navigation | `usePrefetch()` |
+| 🧩 **Mutations** | Perform POST/PUT/DELETE actions | `useAddUserMutation()` |
+| 🔒 **Auth Headers** | Add JWT tokens dynamically | `prepareHeaders()` |
+| ⚙️ **Error Handling** | Built-in error & retry support | `isError`, `error` |
+| 🧠 **TypeScript Support** | Fully typed endpoints & hooks | `User[]`, `Post[]` |
+| 🌐 **Flexible HTTP Client** | Works with `fetch` or `Axios` | `axiosBaseQuery()` |
+| 🧮 **SSR Support** | Server-side data fetching | Next.js, Remix apps |
 
 
 
