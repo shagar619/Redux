@@ -655,23 +655,23 @@ These hooks return:
 `refetch()`
 `isSuccess`
 
-**8️⃣ Refetching**
+**8️⃣  Data Fetching Made Simple**
 
-can manually trigger refetching:
+Instead of manually using fetch or axios and dispatching multiple actions, RTK Query provides a declarative API.
+
 ```typescript
-const { data, refetch } = useGetUsersQuery();
+const { data, isLoading, error } = useGetUsersQuery();
 
 <button onClick={() => refetch()}>Refresh</button>
 ```
 
-You can also configure auto refetching on:
+✅ Automatically:
 
-- Focus regain
-- Network reconnect
+- Fetches data from the server
+- Stores it in Redux
+- Manages loading and error states
+- Re-fetches when necessary
 
-```typescript
-setupListeners(store.dispatch); // from RTK Query utilities
-```
 
 **9️⃣ Polling**
 
