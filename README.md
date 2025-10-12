@@ -722,8 +722,10 @@ const { data, refetch } = useGetUsersQuery(undefined, {
 
 RTK Query can refetch data at regular intervals.
 
-```typescript
-const { data } = useGetUsersQuery(undefined, { pollingInterval: 10000 });
+```tsx
+const { data } = useGetUsersQuery(undefined, {
+  pollingInterval: 10000, // every 10 seconds
+});
 ```
 
 **🔟 Selectors**
@@ -736,10 +738,49 @@ import { api } from './api';
 const userSelector = api.endpoints.getUsers.select();
 ```
 
-**11️⃣ Caching and De-Duplication**
+**11️⃣ Built-in Middleware and Store Integration**
 
+RTK Query automatically adds its own middleware to handle:
 
+- Cache lifetimes
+- Polling
+- Re-fetch triggers
+- Background updates
 
+You integrate it easily with your Redux store:
+```typescript
+import { configureStore } from '@reduxjs/toolkit';
+import { api } from './services/api';
+
+export const store = configureStore({
+  reducer: {
+    [api.reducerPath]: api.reducer,
+  },
+  middleware: (getDefault) => getDefault().concat(api.middleware),
+});
+```
+
+**12️⃣ Works with Any HTTP Client**
+
+While `fetchBaseQuery` is built-in, you can also use:
+
+- Axios
+- GraphQL
+- Custom fetchers
+
+Example custom base query:
+```typescript
+const axiosBaseQuery =
+  ({ baseUrl } = { baseUrl: '' }) =>
+  async ({ url, method, data, params }: any) => {
+    try {
+      const result = await axios({ url: baseUrl + url, method, data, params });
+      return { data: result.data };
+    } catch (axiosError: any) {
+      return { error: axiosError.response?.data };
+    }
+  };
+```
 
 
 
